@@ -1,5 +1,5 @@
 module Omniauth
-  module Gitlab
+  module GitLab
     VERSION = "0.0.1"
   end
 end
