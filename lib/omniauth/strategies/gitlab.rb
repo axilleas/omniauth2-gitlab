@@ -6,18 +6,18 @@ module OmniAuth
        option :name, 'gitlab'
 
        option :client_options, {
-         :site => 'https://gitlab.com',
-         :authorize_url => '/oauth/authorize/',
-         :token_url => '/oauth/token/'
+         site: 'https://gitlab.com',
+         authorize_url: '/oauth/authorize/',
+         token_url: '/oauth/token/'
        }
 
       uid { raw_info["id"] }
 
       info do
         {
-          :email => raw_info["email"]
-          :username => raw_info["username"]
-          :name => raw_info["name"]
+          email: raw_info["email"],
+          username: raw_info["username"],
+          name: raw_info["name"]
         }
       end
 
