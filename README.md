@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/omniauth2-gitlab.svg)](http://badge.fury.io/rb/omniauth2-gitlab)
+
 # Omniauth2::Gitlab
 
 This is the official OmniAuth strategy for authenticating to GitLab. To use it,
