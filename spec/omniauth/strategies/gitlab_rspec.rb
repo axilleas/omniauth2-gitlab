@@ -5,9 +5,9 @@ describe OmniAuth::Strategies::GitLab do
   let(:parsed_response) { double('ParsedResponse') }
   let(:response) { double('Response', :parsed => parsed_response) }
 
-  let(:gitlab_site)          { 'https://some.other.site.com/api/v3' }
-  let(:gitlab_authorize_url) { 'https://some.other.site.com//oauth/authorize' }
-  let(:gitlab_token_url)     { 'https://some.other.site.com//oauth/access_token' }
+  let(:gitlab_site)          { 'https://some.other.site.com' }
+  let(:gitlab_authorize_url) { '/oauth/authorize/' }
+  let(:gitlab_token_url)     { '/oauth/token/' }
   let(:gitlab) do
     OmniAuth::Strategies::GitLab.new('GITLAB_KEY', 'GITLAB_SECRET',
         {
@@ -30,15 +30,15 @@ describe OmniAuth::Strategies::GitLab do
 
   context "client options" do
     it 'should have correct site' do
-      expect(subject.options.client_options.site).to eq("https://gitlab.com/api")
+      expect(subject.options.client_options.site).to eq("https://gitlab.com")
     end
 
     it 'should have correct authorize url' do
-      expect(subject.options.client_options.authorize_url).to eq('https://gitlab.com/oauth/authorize')
+      expect(subject.options.client_options.authorize_url).to eq('/oauth/authorize/')
     end
 
     it 'should have correct token url' do
-      expect(subject.options.client_options.token_url).to eq('https://gitlab.com/login/access_token')
+      expect(subject.options.client_options.token_url).to eq('/oauth/token/')
     end
 
     describe "should be overrideable" do
@@ -88,47 +88,17 @@ describe OmniAuth::Strategies::GitLab do
       allow(subject).to receive(:raw_info).and_return({'email' => 'you@example.com'})
       expect(subject.email).to eq('you@example.com')
     end
+  end
 
     it "should return nil if there is no raw_info and email access is not allowed" do
       allow(subject).to receive(:raw_info).and_return({})
       expect(subject.email).to be_nil
     end
 
-    it "should return the primary email if there is no raw_info and email access is allowed" do
-      emails = [
-        { 'email' => 'secondary@example.com', 'primary' => false },
-        { 'email' => 'primary@example.com',   'primary' => true }
-      ]
-      allow(subject).to receive(:raw_info).and_return({})
-      subject.options['scope'] = 'user'
-      allow(subject).to receive(:emails).and_return(emails)
-      expect(subject.email).to eq('primary@example.com')
-    end
-
-    it "should return the first email if there is no raw_info and email access is allowed" do
-      emails = [
-        { 'email' => 'first@example.com',   'primary' => false },
-        { 'email' => 'second@example.com',  'primary' => false }
-      ]
-      allow(subject).to receive(:raw_info).and_return({})
-      subject.options['scope'] = 'user'
-      allow(subject).to receive(:emails).and_return(emails)
-      expect(subject.email).to eq('first@example.com')
-    end
-  end
-
   context "#raw_info" do
     it "should use relative paths" do
-      expect(access_token).to receive(:get).with('user').and_return(response)
+      expect(access_token).to receive(:get).with('/api/v3/user').and_return(response)
       expect(subject.raw_info).to eq(parsed_response)
-    end
-  end
-
-  context "#emails" do
-    it "should use relative paths" do
-      expect(access_token).to receive(:get).with('user/emails', :headers=>{"Accept"=>"application/vnd.gitlab.v3"}).and_return(response)
-      subject.options['scope'] = 'user'
-      expect(subject.emails).to eq(parsed_response)
     end
   end
 
