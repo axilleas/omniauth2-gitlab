@@ -1,13 +1,15 @@
-# Omniauth::Gitlab
+# Omniauth2::Gitlab
 
-TODO: Write a gem description
+This is the official OmniAuth strategy for authenticating to GitLab. To use it,
+you'll need to sign up for an OAuth2 Application ID and Secret on your GitLab
+Applications Page (`admin/applications/`).
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'omniauth-gitlab'
+gem 'omniauth2-gitlab'
 ```
 
 And then execute:
@@ -16,16 +18,36 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install omniauth-gitlab
+    $ gem install omniauth2-gitlab
 
 ## Usage
 
-TODO: Write usage instructions here
+In your `config/initializers/omniauth.rb`:
 
-## Contributing
+```ruby
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :gitlab, ENV['GITLAB_APP_ID'], ENV['GITLAB_SECRET']
+end
+```
 
-1. Fork it ( https://github.com/[my-github-username]/omniauth-gitlab/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+By default it uses `https://gitlab.com` for authentication. To change to your
+site:
+
+```ruby
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :gitlab, ENV['GITLAB_APP_ID'], ENV['GITLAB_SECRET']
+    {
+      :client_options => {
+        :site => 'https://YOURDOMAIN.com',
+      }
+    }
+end
+```
+
+Then, register a new application in your GitLab server and start your Rails
+application by providing the environment variables `GITLAB_APP_ID` and
+`GITLAB_SECRET`.
+
+## LICENSE
+
+MIT, see [LICENSE](./LICENSE).

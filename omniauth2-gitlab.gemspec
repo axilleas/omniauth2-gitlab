@@ -4,13 +4,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'omniauth/gitlab/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "omniauth-gitlab"
+  spec.name          = "omniauth2-gitlab"
   spec.version       = Omniauth::GitLab::VERSION
   spec.authors       = ["Achilleas Pipinellis"]
   spec.email         = ["axilleas@axilleas.me"]
-  spec.summary       = %q{OmniAuth strategy for GitLab}
-  spec.description   = %q{OmniAuth strategy for GitLab}
-  spec.homepage      = "https://gitlab.com/gitlab-org/omniauth-gitlab"
+  spec.summary       = %q{OmniAuth2 strategy for GitLab}
+  spec.description   = %q{OmniAuth2 strategy for GitLab}
+  spec.homepage      = "https://gitlab.com/gitlab-org/omniauth2-gitlab"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
