@@ -35,7 +35,7 @@ site:
 
 ```ruby
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :gitlab, ENV['GITLAB_APP_ID'], ENV['GITLAB_SECRET']
+  provider :gitlab, ENV['GITLAB_APP_ID'], ENV['GITLAB_SECRET'],
     {
       :client_options => {
         :site => 'https://YOURDOMAIN.com',
